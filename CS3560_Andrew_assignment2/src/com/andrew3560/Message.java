@@ -21,11 +21,31 @@ public class Message
 		{
 			instance = new Message();
 		}
-		else
-		{
-			System.out.println("Message already has an instance");
-		}
 		return instance;
+	}
+
+	public void findNumPositive(String word)
+	{
+		File file = new File("/com/andrew3560/positive-words.txt");
+		try
+		{
+			Scanner scan = new Scanner(file);
+
+			while (scan.hasNextLine())
+			{
+				String temp = word.toLowerCase();
+				if(temp.equals(scan.nextLine()))
+				{
+					positiveWords++;
+				}
+			}
+
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 
 	public int positiveNumWords()
@@ -33,37 +53,11 @@ public class Message
 		return positiveWords;
 	}
 	
-	public void tweetRead(String tweet)
-	{
+	public void tweetRead(String tweet) {
 		String[] word = tweet.split(" ");
-		for(String t : word)
-		{
+		for (String t : word) {
 			findNumPositive(t);
 		}
-	}
-	
-	public void findNumPositive(String word)
-	{
-	    File file = new File("/com/andrew3560/positive-words.txt");
-	    try
-		{
-			Scanner scan = new Scanner(file);
-			
-		    while (scan.hasNextLine())
-			{
-		    	String temp = word.toLowerCase();
-		        if(temp.equals(scan.nextLine()))
-				{
-		        	positiveWords++;
-		        }
-		    } 
-
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		} 
-			
 	}
 	
 }
