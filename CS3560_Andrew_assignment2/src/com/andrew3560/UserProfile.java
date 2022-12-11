@@ -34,9 +34,10 @@ public class UserProfile extends JFrame implements ActionListener
 	private JList listTweets;
 	private JTextPane tweetTextPane;
 
-	private JList followList;
 	private JScrollPane followsMini;
 	private DefaultListModel followers;
+	private JList followList;
+
 
 	private int numAdmin;
 	
@@ -53,6 +54,7 @@ public class UserProfile extends JFrame implements ActionListener
 		followers = new DefaultListModel();
 		followsMini = new JScrollPane();
 		followList = new JList();
+		
 
 		numAdmin = 0;
 		setTitle("@" + user.getName());
@@ -101,6 +103,8 @@ public class UserProfile extends JFrame implements ActionListener
 		userPanel.add(button, gridConstraintLayout);
 
 
+		followers.addElement("time_created: "+ user.getCreationTime());
+		followers.addElement("last_updated: "+ user.getCreationTime());
 		followers.addElement("[FOLLOWING]");
 
 		for(int i=0 ; i < AdminUnity.getInstance().getUserList().size() ; ++i)
@@ -184,9 +188,15 @@ public class UserProfile extends JFrame implements ActionListener
 
 		if(action=="Post Tweet")
 		{
-
+			user.setLastUpdated(System.currentTimeMillis());
+			
 			followers.clear();
+			followers.addElement("time_created: "+ user.getCreationTime());
+			followers.addElement("last_updated: "+ user.getLastUpdated());
 			followers.addElement("[FOLLOWING]");
+
+			//followers.clear();
+			//followers.addElement("[FOLLOWING]");
 
 			for(int i=0 ; i<AdminUnity.getInstance().getUserList().size() ; ++i)
 			{

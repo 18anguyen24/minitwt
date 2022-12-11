@@ -32,6 +32,10 @@ public class AdminUnity implements ActionListener, TreeSelectionListener {
 	private HashMap<String, String> mapUsers;
 	private HashMap<String, String> mapGroups;
 
+	private HashMap<User, Long> creationTimeMap;
+	private HashMap<User, Long> lastUpdatedMap;
+	private boolean idValid = true;
+
 	private TreePanel treeView;
 	
 	private AdminUnity(String title)
@@ -48,6 +52,8 @@ public class AdminUnity implements ActionListener, TreeSelectionListener {
 		listGroups = new LinkedList<>();
 		mapUsers = new HashMap<>();
 		mapGroups = new HashMap<>();
+		creationTimeMap = new HashMap<>();
+		lastUpdatedMap = new HashMap<>();
 
 		//frame.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		//ayout.setForeGround(Color.BLUE)
@@ -134,9 +140,17 @@ public class AdminUnity implements ActionListener, TreeSelectionListener {
 		JPanel gridPanel = new JPanel();
 		gridPanel.setLayout(new GridLayout(3,0));
 		
+		JButton buttonVal = new JButton("Validate ID's");
+		buttonVal.addActionListener(this);
+		gridPanel.add(buttonVal);
+		
 		JButton button = new JButton("Open User View");
 		button.addActionListener(this);
 		gridPanel.add(button);
+		
+		JButton buttonUp = new JButton("Last Updated User");
+		buttonUp.addActionListener(this);
+		gridPanel.add(buttonUp);
 		
 		return gridPanel;
 	}
@@ -211,6 +225,8 @@ public class AdminUnity implements ActionListener, TreeSelectionListener {
 		User user = new User();
 		user.setName(input);
 		user.setId(input);
+		long created = System.currentTimeMillis();
+		user.setCreationTime(created);
 
 		if (input == null)
 		{
@@ -308,6 +324,19 @@ public class AdminUnity implements ActionListener, TreeSelectionListener {
 		
 	}
 
+	private User getLastUpdatedUser() {
+		User u = listUsers.get(0);
+		
+		for(int i=1 ; i<listUsers.size() ; ++i) {
+			if(u.getLastUpdated()<listUsers.get(i).getLastUpdated()) {
+				u = listUsers.get(i);
+			}
+		}
+		
+		return u;
+	}
+
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -334,6 +363,16 @@ public class AdminUnity implements ActionListener, TreeSelectionListener {
 			break;
 		case "Show Positive Percentage":
 			JOptionPane.showMessageDialog(new JFrame(), "Positive Percentage: " + Message.getInstance().positiveNumWords());
+			break;
+			case "Validate ID's":
+			if(idValid==true) {
+				JOptionPane.showMessageDialog(new JFrame(), "Identification Numbers Valid");
+			} else {
+				JOptionPane.showMessageDialog(new JFrame(), "Identification Numbers Invalid");
+			}
+			break;
+		case "Last Updated User":
+			JOptionPane.showMessageDialog(new JFrame(), "Last Updated User: " + getLastUpdatedUser().getId());
 			break;
 		default:
 			System.out.println("Error: Unknown Button Selected");

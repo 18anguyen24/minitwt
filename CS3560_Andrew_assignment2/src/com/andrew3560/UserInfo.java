@@ -1,4 +1,7 @@
 package com.andrew3560;
+import java.text.DateFormat;   
+import java.text.SimpleDateFormat;   
+import java.util.Date;   
 
 public abstract class UserInfo {
 	
@@ -6,6 +9,8 @@ public abstract class UserInfo {
 	private String name;
 	private int total;
 
+	private long creationTime;
+	private long lastUpdated;
 
 	public String getName()
 	{
@@ -38,4 +43,24 @@ public abstract class UserInfo {
 	{
 		this.total = total;
 	}
+
+
+	public String getCreationTime() {
+		DateFormat obj = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");   
+		Date res = new Date(creationTime); 
+		return obj.format(res);
+	}
+
+	public void setCreationTime(long creationTime) {
+		this.creationTime = creationTime;
+	}
+
+	public long getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(long lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
 }
+
