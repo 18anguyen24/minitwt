@@ -45,10 +45,8 @@ public abstract class UserInfo {
 	}
 
 
-	public String getCreationTime() {
-		DateFormat obj = new SimpleDateFormat("dd MMM yyyy HH:mm:ss:SSS Z");   
-		Date res = new Date(creationTime); 
-		return obj.format(res);
+	public long getCreationTime() {
+		return creationTime;
 	}
 
 	public void setCreationTime(long creationTime) {
